@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+  <script defer src={{url_for('static',filename='js/main.js')}}></script>
+  <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+</head>
+<body>
+    <nav>
+  <button id="back"> <a href="{{ url_for('read_page',pagename=title)}}">back to page</a></button>
+  <button id="home"> <a href="{{ url_for('index')}}">home</a></button>
+  <button id="chron"> <a href="{{ url_for('page_chron',pagename=title)}}">edit history</a></button>
+</nav>
+    <h1>You are editing {{title}} </h1>
+    <hr>
+    <form method="POST">
+        <textarea name="content" id="edit-content" rows="30">{{content}}</textarea>
+        <input type="submit" value="Submit edits"> </input>
+    </form>
+</body>

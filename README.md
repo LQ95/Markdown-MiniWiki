@@ -1,2 +1,3 @@
 # Markdown-MiniWiki
-miniwiki in parkdown,made as a learning project in Python
+
+Minimal wiki implementation in markdown, made as a learning project for Flask, in Python

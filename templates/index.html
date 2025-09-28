@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+  <script defer src={{url_for('static',filename='js/main.js')}}></script>
+  <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+
+
+   <h1>
+    Markdown Mini-Wiki Main Page
+   </h1>
+   <hr> 
+
+   <section id="wiki-main">
+    <p>Welcome to the <b>Markdown Mini-Wiki</b>!</p> 
+
+    <p>This is a wiki where you can create or edit pages by writing them in Markdown.</p>
+    <form method="POST">
+      <label for="search">Search for or create a page:</label>
+      <input type="search" id="site-search" name="search" />
+      <input type="submit" value="Go"></input>
+    </form>
+  </section>
+  {%if pages%}
+  <p>Or select from this list:</p>
+   <div class="elements-list">
+    {%for p in pages%}
+    <span class= "single-element"><a href="{{ url_for('read_page',pagename=p['title']) }}">{{p['title']}}</a></span>
+      <hr class="element-break">
+    {%endfor%}
+    </div>
+    
+    {%else%}
+    <p>This wiki has no pages right now.</p>
+  {% endif %}
+</head>

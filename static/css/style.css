@@ -1,0 +1,52 @@
+@font-face {
+  font-family: "Rubik";
+  src: url(https://fonts.gstatic.com/s/rubik/v31/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-B4iFV0U1.woff2)
+    format("woff2");
+}
+
+body {
+  text-align: center;
+  font-family: "Rubik";
+  background-color: rgb(220, 238, 255);
+}
+nav {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.5em;
+  justify-content: flex-end;
+}
+nav button {
+  margin-left: 1em;
+  width: 6%;
+  height: 2.5em;
+  border-radius: 1em;
+  font-family: "Rubik";
+}
+button a {
+  text-decoration: none;
+  color: black;
+}
+
+textarea {
+  width: 50%;
+}
+
+.elements-list {
+  margin-top: 3em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.single-element {
+  display: flex;
+  flex-direction: row;
+  padding: 0.5 em;
+  margin-bottom: 0.5 em;
+  width: 40%;
+  border-bottom: 1px solid black;
+}
+.single-element a {
+  text-decoration: none;
+}
