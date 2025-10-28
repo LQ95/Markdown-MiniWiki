@@ -57,6 +57,10 @@ with app.app_context():
 def main():
     return redirect(url_for('main_page'))
 
+@app.get("/login")
+def login():
+    return render_template("login.html")
+
 @app.route('/index')
 def index():
     return redirect(url_for('main_page'))
