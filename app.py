@@ -61,6 +61,14 @@ def main():
 def login():
     return render_template("login.html")
 
+@app.get("/signup")
+def login():
+    return render_template("signup.html")
+
+@app.get("/user/<username>")
+def login(username):
+    return render_template("userpage.html",username=username)
+
 @app.route('/index')
 def index():
     return redirect(url_for('main_page'))

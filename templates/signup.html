@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %} Sign-up - Markdown MiniWiki {% endblock %}
+{% block subtitle %} Register a new account {% endblock %}
+
+{% block content %}
+<form method="POST">
+        <label for="username">Username:</label>
+        <input name="username" id="username" ></input>
+        <label for="password">Password:</label>
+        <input name="password" id="password" ></input>
+        <br/>
+        <input type="submit" value="signup"> </input>
+    </form>
+{% endblock %}

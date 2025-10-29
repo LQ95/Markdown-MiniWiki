@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Utente: {{username}} - Markdown MiniWiki {% endblock %}
+{% block nav %}
+<nav>
+  <button id="edit"> <a href="{{ url_for('edit_page',pagename=title)}}">edit</a></button>
+  <button id="home"> <a href="{{ url_for('index')}}">home</a></button>
+{% endblock %}
+{% block subtitle %}Utente: {{username}} {% endblock %}
+{% block content %}
+
+
+{% endblock %}
