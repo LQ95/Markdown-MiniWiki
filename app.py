@@ -14,9 +14,11 @@ Possibili utenti multipli
 from __future__ import annotations
 from flask import Flask, render_template, request, redirect, url_for, flash
 import sqlite3, os, time
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 app = Flask(__name__)
-app.secret_key = "dev"
+app.config["SECRET_KEY"] = "your-secret-key-change-this-in-production"
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "app.db")
 
@@ -36,8 +38,11 @@ def init_db():
         );
         """)
         #not implemented yet
-        #db.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,email TEXT NOT NULL, Sysop INTEGER NOT NULL);")
+        db.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,email TEXT NOT NULL, Sysop INTEGER NOT NULL);")
         db.execute("CREATE TABLE IF NOT EXISTS edits (id INTEGER PRIMARY KEY AUTOINCREMENT,page_id INTEGER NOT NULL,type TEXT NOT NULL,timestamp TEXT NOT NULL);")
+
+def populate(db):
+    pass
 
 with app.app_context():
     init_db()
@@ -50,9 +55,20 @@ with app.app_context():
         db.execute("INSERT INTO edits(page_id,type,timestamp) SELECT ?,?,? WHERE NOT EXISTS(SELECT 1 FROM edits WHERE page_id=?)",
                    (test_page_id,"creation",time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()), test_page_id))
 
-#INSERT OR IGNORE INTO edits (page_id,type,timestamp) VALUES (?,?,?)
-#routing
 
+
+def add_user(username,password):
+    timestamp=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+
+def add_page():
+    timestamp=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+
+def add_edit(page_id,type):
+    timestamp=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+    with get_db() as db:
+        db.execute("INSERT OR IGNORE INTO edits (page_id,type,timestamp) VALUES (?,?,?)",(page_id,type,timestamp))
+
+#routing
 @app.route('/')
 def main():
     return redirect(url_for('main_page'))
@@ -108,8 +124,7 @@ def edit_page(pagename):
         page_id=row['id']
         with get_db() as db:
             db.execute("UPDATE pages SET body=? WHERE id=?",(newcontent,page_id))
-            db.execute("INSERT OR REPLACE INTO edits (page_id,type,timestamp) VALUES (?,?,?)",
-                   (page_id,"edit",time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())))
+            add_edit(page_id,"edit")
         return redirect(url_for("read_page",pagename=pagename))
     pagecontent=row['body']
     return render_template('page_edit.html',content=pagecontent,title=pagename)
@@ -127,8 +142,7 @@ def create_page(pagename,):
                    (pagename,content,time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()) ))
             row = db.execute("SELECT * FROM pages WHERE title=?", (pagename,)).fetchone()
             page_id=row['id']
-            db.execute("INSERT OR REPLACE INTO edits (page_id,type,timestamp) VALUES (?,?,?)",
-                   (page_id,"creation",time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())))
+            add_edit(page_id,"creation")
         return redirect(url_for("read_page",pagename=pagename))
     else: return render_template('page_create.html',title=pagename) 
      
