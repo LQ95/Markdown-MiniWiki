@@ -1,15 +1,15 @@
 '''
 Progetto MINI WIKI
 
-Crea una piccola wiki
+Crea una piccola wiki scritta in markdown usando un parser JS
 
-(indaga se si può scrivere in Markdown usando un parser JS)
-
-Pagine editabili, e cancellabili, (con tanto di cronologia?)
+Pagine editabili, e cancellabili, con tanto di cronologia
 
 Possibili utenti multipli
 '''
-
+#TODO: cambia il database a un database che usa Postgres
+#TODO: carica tutto su una immagine Docker
+#TODO: login e registrazione utenti, con hasing delle password
 
 from __future__ import annotations
 from flask import Flask, render_template, request, redirect, url_for, flash
@@ -57,11 +57,17 @@ with app.app_context():
 
 
 
-def add_user(username,password):
-    timestamp=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+def add_user(username,password,email,is_sysop):
+    with get_db() as db:
+        db.execute("INSERT OR REPLACE INTO users (name,password,email) VALUES (?,?,?)",
+                   (username,password,email))
 
-def add_page():
+def add_page(name,content):
     timestamp=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+    with get_db() as db:
+        db.execute("INSERT OR REPLACE INTO pages (title,body,created_at) VALUES (?,?,?)",
+                   (name,content,timestamp))
+
 
 def add_edit(page_id,type):
     timestamp=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
